@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SUDOKU</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="shortcut icon" href="./image/logo.png" type="image/x-icon">
+    <link href="./style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <h1 class="title__main">Sudoku</h1>
+    </header>
+    <div id="app-sudoku">
+        <button v-if="isNewGame" class="button mt-20" v-on:click="initializeGame('3')"><span>Easy</span></button>
+
+        <button v-if="isNewGame" class="button mt-20" v-on:click="initializeGame('4')"><span>Normal</span></button>
+
+        <button v-if="isNewGame" class="button mt-20" v-on:click="initializeGame('5')"><span>Hard</span></button>
+
+        <button v-if="isNewGame" class="button mt-20" v-on:click="initializeGame('6')"><span>Super Hard</span></button>
+
+        <button class="button mt-20" v-on:click="restart()" v-if=" isGameStarted">
+            <span>New Game</span>
+        </button>
+
+        <button class="button" v-on:click="evaluateGame()" v-if="isGameStarted"><span>Verify</span></button>
+
+        <div v-if="showAnswer" class="answer">
+            <img v-bind:src="answerImage" class="answer-image" />
+        </div>
+
+        <div class="grid-sudoku" v-if="isGameStarted && !showAnswer">
+            <div v-for="(row, indexRow) in sudokuMatrix" class="grid-row">
+                <div v-for="(cell, indexCell) in row" class="grid-cell">
+                    <input pattern="\d*" type="text" v-bind:key="cell.num" v-model="cell.num"
+                        @change="formatCell(indexRow, indexCell)" @keypress="onlyNumber" class="grid-cell-editor"
+                        :class="{'blue': cell.readOnly}" :readonly="cell.readOnly" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="sudoku.js"></script>
+</body>
+
+</html>
